@@ -32,27 +32,15 @@ pc_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2', 'PC3', 'P
 explained_variance = pca.explained_variance_ratio_
 
 # Output results
-# print("Principal Components:\n", pc_df.round(3))
+print("Principal Components:\n", pc_df.round(3))
 print("Explained Variance:\n", explained_variance)
 
+# Interactive 3D Plotting the principal components
+fig = px.scatter_3d(
+    pc_df, x='PC1', y='PC2', z='PC3',
+    color='PC4',  # Using the third component for color
+    title='3D PCA of Flood Mapping Data (Transposed)',
+    labels={'PC1': 'Principal Component 1', 'PC2': 'Principal Component 2', 'PC3': 'Principal Component 3'}
+)
 
-
-# for i in range(0,data[0].size):
-#     data[i] = np.multiply(data[i],explained_variance)
-# print("test\n",data.round(4))
-test = np.copy(data)
-for i in range(0,data[0].size):
-    for j in range(0,data[0].size):
-        test[i][j]= explained_variance[i]-explained_variance[j]
-print(test)
-print()
-print()
-
-min = np.min(explained_variance)
-max = np.max(explained_variance)
-print(min,",",max)
-for i in range(0,data[0].size):
-    for j in range(0,data[0].size):
-        # test[i][j] = explained_variance[i]-explained_variance[j]
-        test[i][j] = 1+(((test[i][j]-min)/(max-min))*8)
-print(test)
+fig.show()
